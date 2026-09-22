@@ -1,0 +1,25 @@
+sequenceDiagram
+    actor Usuario
+    participant Frontend as :Frontend (React)
+    participant API as :API (server.js)
+    participant Modelo as :Modelo (modelo.js)
+    participant Banco as :Banco (SQLite)
+
+    Usuario->>Frontend: clica em upvote/downvote
+    Frontend->>API: POST /perguntas/:id/votos {id_usuario, tipo}
+    API->>Modelo: registrar_voto(id_pergunta, id_usuario, tipo)
+    Modelo->>Banco: SELECT voto existente (id_pergunta, id_usuario)
+
+    alt nenhum voto existente
+        Modelo->>Banco: INSERT novo voto
+    else voto existente com mesmo tipo
+        Modelo->>Banco: DELETE voto (toggle off)
+    else voto existente com tipo diferente
+        Modelo->>Banco: UPDATE voto (troca tipo)
+    end
+
+    Modelo->>Banco: SELECT saldo de votos da pergunta
+    Banco-->>Modelo: saldo atualizado
+    Modelo-->>API: saldo atualizado
+    API-->>Frontend: 200 OK {saldo}
+    Frontend-->>Usuario: atualiza contador de votos na tela

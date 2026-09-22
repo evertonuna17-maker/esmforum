@@ -1,0 +1,11 @@
+stateDiagram-v2
+    [*] --> SemVoto
+
+    SemVoto --> Upvotada: usuário clica em upvote
+    SemVoto --> Downvotada: usuário clica em downvote
+
+    Upvotada --> SemVoto: usuário clica em upvote novamente (toggle off)
+    Upvotada --> Downvotada: usuário clica em downvote
+
+    Downvotada --> SemVoto: usuário clica em downvote novamente (toggle off)
+    Downvotada --> Upvotada: usuário clica em upvote

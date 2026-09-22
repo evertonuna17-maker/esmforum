@@ -1,0 +1,23 @@
+classDiagram
+    class PerguntaSujeito {
+        -observadores: IObservadorResposta[]
+        +inscrever(observador)
+        +notificarNovaResposta(pergunta, resposta)
+    }
+
+    class IObservadorResposta {
+        <<interface>>
+        +notificar(pergunta, resposta)
+    }
+
+    class NotificadorAutorDaPergunta {
+        +notificar(pergunta, resposta)
+    }
+
+    class NotificadorLogAuditoria {
+        +notificar(pergunta, resposta)
+    }
+
+    PerguntaSujeito o--> "*" IObservadorResposta : observadores
+    IObservadorResposta <|.. NotificadorAutorDaPergunta
+    IObservadorResposta <|.. NotificadorLogAuditoria

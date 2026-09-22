@@ -1,0 +1,21 @@
+classDiagram
+    class PerguntaViewFactory {
+        -modelo
+        -votoRepositorio
+        -tagRepositorio
+        +criarView(id_pergunta) PerguntaView
+        +criarViewLista() PerguntaView[]
+    }
+
+    class PerguntaView {
+        +id_pergunta
+        +texto
+        +num_respostas
+        +saldo_votos
+        +tags
+    }
+
+    PerguntaViewFactory ..> PerguntaView : cria
+    PerguntaViewFactory --> Modelo
+    PerguntaViewFactory --> VotoRepositorio
+    PerguntaViewFactory --> TagRepositorio

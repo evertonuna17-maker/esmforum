@@ -1,0 +1,31 @@
+classDiagram
+    class IListagemPerguntas {
+        <<interface>>
+        +listar() Pergunta[]
+    }
+
+    class ListagemBase {
+        +listar() Pergunta[]
+    }
+
+    class FiltroDecorator {
+        <<abstract>>
+        -origem: IListagemPerguntas
+        +listar() Pergunta[]
+    }
+
+    class FiltroPorTag {
+        -tag: string
+        +listar() Pergunta[]
+    }
+
+    class FiltroPorPalavraChave {
+        -termo: string
+        +listar() Pergunta[]
+    }
+
+    IListagemPerguntas <|.. ListagemBase
+    IListagemPerguntas <|.. FiltroDecorator
+    FiltroDecorator <|-- FiltroPorTag
+    FiltroDecorator <|-- FiltroPorPalavraChave
+    FiltroDecorator o--> IListagemPerguntas : origem

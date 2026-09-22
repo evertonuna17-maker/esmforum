@@ -1,0 +1,30 @@
+flowchart TB
+    subgraph Cliente["Cliente (navegador)"]
+        React["esmforum-react\n(SPA React)"]
+    end
+
+    subgraph Servidor["Servidor (esmforum)"]
+        direction TB
+        subgraph Apresentacao["Camada de Apresentação"]
+            ServerJS["server.js\n(rotas Express)"]
+        end
+        subgraph Negocio["Camada de Negócio"]
+            Modelo["modelo.js"]
+            VotoServico["voto_servico.js"]
+        end
+        subgraph Dados["Camada de Dados"]
+            BdUtils["bd_utils.js"]
+            VotoRepo["voto_repositorio.js"]
+        end
+    end
+
+    SQLite[("SQLite\nesmforum.db")]
+
+    React -- "fetch() HTTP/JSON" --> ServerJS
+    ServerJS --> Modelo
+    ServerJS --> VotoServico
+    ServerJS -. "chamada direta\n(pula a camada de negócio)" .-> VotoRepo
+    Modelo --> BdUtils
+    VotoServico --> VotoRepo
+    BdUtils --> SQLite
+    VotoRepo --> BdUtils

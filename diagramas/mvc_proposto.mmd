@@ -1,0 +1,14 @@
+flowchart TB
+    Cliente["Cliente (React)"] -- "1. HTTP request" --> Controller
+
+    subgraph MVC["Backend — MVC proposto"]
+        Controller["Controller\nPerguntaController / VotoController"]
+        Model["Model\nPergunta, Voto\n(regras + acesso a dados)"]
+        View["View\nPerguntaViewFormatter / VotoViewFormatter\n(formata o JSON de resposta)"]
+    end
+
+    Controller -- "2. delega a operação" --> Model
+    Model -- "3. devolve dado bruto/objeto de domínio" --> Controller
+    Controller -- "4. pede formatação" --> View
+    View -- "5. JSON formatado" --> Controller
+    Controller -- "6. HTTP response" --> Cliente
